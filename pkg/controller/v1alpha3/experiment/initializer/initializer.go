@@ -78,6 +78,7 @@ func (g *GeneralInitializer) getTrialTemplate(instance *experimentv1alpha2.Exper
 	if trialTemplate != nil && trialTemplate.GoTemplate.RawTemplate != "" {
 		tpl, err = template.New("Trial").Parse(trialTemplate.GoTemplate.RawTemplate)
 	}
+	// TODO(gaocegege): Deal with config map here.
 	if err != nil {
 		logger.Error(err, "Template parse error")
 		return nil, err
