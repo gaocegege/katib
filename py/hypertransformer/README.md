@@ -14,7 +14,7 @@ Options:
 ```
 
 ```bash
-python ./py/hypertransformer/main.py --original_file ./examples/train.py --backup_file ./examples/train.backup-by-hypertransformer.py
+python ./py/hypertransformer/main.py --original_file ./py/hypertransformer/examples/train.py --backup_file ./py/hypertransformer/examples/train.backup-by-hypertransformer.py
 ```
 
 The script parses the python AST, and insert hyperparameters if needed.
