@@ -12,7 +12,7 @@ import transformer as t
 @click.option('--backup_file', default='mnist.backup-by-hypertransformer.py',
               help='file where to backup the original file')
 def transform(original_file, backup_file):
-    """Simple program that greets NAME for a total of COUNT times."""
+    """Insert the hyperparameters to python code."""
     click.echo("file: %s, backup_file: %s" % (original_file, backup_file))
     with open(original_file) as f:
         code = f.read()
