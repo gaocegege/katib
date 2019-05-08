@@ -2,6 +2,7 @@ package composer
 
 import (
 	"bytes"
+	"fmt"
 
 	tfv1beta1 "github.com/kubeflow/tf-operator/pkg/apis/tensorflow/v1beta1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -49,6 +50,8 @@ func (g *GeneralComposer) GetDesiredTFJob(instance *trialv1alpha2.Trial) (*tfv1b
 		}
 		desiredJobSpec.Spec.TFReplicaSpecs[k].Template.Labels[util.LabelTrial] = instance.Name
 	}
+	// Set name to avoid dup.
+	desiredJobSpec.Name = fmt.Sprintf("%s-%s", instance.Name, desiredJobSpec.Name)
 
 	return desiredJobSpec, nil
 }

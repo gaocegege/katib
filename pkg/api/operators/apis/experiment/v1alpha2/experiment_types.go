@@ -95,6 +95,7 @@ type ExperimentStatus struct {
 }
 
 type OptimalTrial struct {
+	TrialName string `json:"trainName,omitempty"`
 	// Key-value pairs for hyperparameters and assignment values.
 	ParameterAssignments []trial.ParameterAssignment `json:"parameterAssignments"`
 

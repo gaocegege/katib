@@ -1,0 +1,53 @@
+apiVersion: kubeflow.org/v1alpha2
+kind: Experiment
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: sample
+spec:
+  parallelTrialCount: 1
+  maxTrialCount: 5
+  metricsCollectorSpec: general
+  parameters:
+    - name: optimizer
+      parameterType: categorical
+      feasibleSpace:
+        list:
+          - adam
+          - sgd
+  objective:
+    type: maximize
+    goal: 0.95
+    objectiveMetricName: accuracy
+    additionalMetricsNames:
+      - loss
+  algorithm:
+    algorithmName: RandomSearch
+    algorithmSettings:
+      - name: param1
+        value: test
+  trialTemplate:
+    goTemplate:
+      rawTemplate: |-
+        apiVersion: "kubeflow.org/v1beta1"
+        kind: "TFJob"
+        metadata:
+          name: "dist-mnist-for-e2e-test"
+        spec:
+          tfReplicaSpecs:
+            Worker:
+              replicas: 1
+              restartPolicy: Never
+              template:
+                spec:
+                  containers:
+                    - name: tensorflow
+                      image: gaocegege/mnist:1
+                      command:
+                        - "python"
+                        - "/mnist.py"
+                        {{- with .HyperParameters}}
+                        {{- range .}}
+                        - "--{{.Name}}={{.Value}}"
+                        {{- end}}
+                        {{- end}}

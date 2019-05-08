@@ -32,6 +32,9 @@ import (
 	experimentv1alpha2 "github.com/kubeflow/katib/pkg/api/operators/apis/experiment/v1alpha2"
 	trialv1alpha2 "github.com/kubeflow/katib/pkg/api/operators/apis/trial/v1alpha2"
 	"github.com/kubeflow/katib/pkg/controller/v1alpha3/experiment/clientset"
+	"github.com/kubeflow/katib/pkg/controller/v1alpha3/experiment/initializer"
+	"github.com/kubeflow/katib/pkg/controller/v1alpha3/experiment/suggestion"
+	"github.com/kubeflow/katib/pkg/controller/v1alpha3/experiment/suggestion/composer"
 	"github.com/kubeflow/katib/pkg/controller/v1alpha3/recorder"
 )
 
@@ -55,11 +58,14 @@ func Add(mgr manager.Manager) error {
 // newReconciler returns a new reconcile.Reconciler
 func newReconciler(mgr manager.Manager) reconcile.Reconciler {
 	r := &ReconcileExperiment{
-		Client:   mgr.GetClient(),
-		Recorder: recorder.New(mgr.GetRecorder(controllerName)),
-		scheme:   mgr.GetScheme(),
-		Trial:    clientset.New(mgr.GetClient()),
+		Client:      mgr.GetClient(),
+		Recorder:    recorder.New(mgr.GetRecorder(controllerName)),
+		scheme:      mgr.GetScheme(),
+		Initializer: initializer.New(),
 	}
+	composer := composer.New()
+	r.Trial = clientset.New(r.Client, r.Recorder)
+	r.SuggestionService = suggestion.NewSemi(r.Client, composer)
 	r.updateStatusHandler = r.updateStatus
 	return r
 }
@@ -97,6 +103,8 @@ type ReconcileExperiment struct {
 	recorder.Recorder
 	scheme *runtime.Scheme
 	clientset.Trial
+	suggestion.SuggestionService
+	initializer.Initializer
 	// To allow injection of updateStatus for testing.
 	updateStatusHandler func(e *experimentv1alpha2.Experiment) error
 }

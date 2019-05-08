@@ -180,7 +180,7 @@
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | type | [ObjectiveType](#api.v1.alpha3.ObjectiveType) |  |  |
-| goal | [float](#float) |  |  |
+| goal | [double](#double) |  |  |
 | objective_metric_name | [string](#string) |  |  |
 
 

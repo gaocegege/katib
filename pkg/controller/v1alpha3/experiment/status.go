@@ -21,9 +21,13 @@ func (r *ReconcileExperiment) updateStatusIfChanged(e *experimentv1alpha2.Experi
 }
 
 func (r *ReconcileExperiment) setStatistics(e *experimentv1alpha2.Experiment,
-	trials, failedTrails, runningTrials int) {
+	trials, failedTrails, runningTrials, succeededTrials, killedTrials int) {
 	e.Status.TrialsFailed = failedTrails
 	e.Status.TrialsRunning = runningTrials
+	e.Status.TrialsFailed = killedTrials
+	e.Status.TrialsSucceeded = succeededTrials
+	e.Status.TrialsPending = trials - failedTrails -
+		runningTrials - killedTrials - succeededTrials
 	e.Status.Trials = trials
 }
 

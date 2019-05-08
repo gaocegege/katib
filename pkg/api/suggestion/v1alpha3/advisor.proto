@@ -72,7 +72,7 @@ enum ObjectiveType {
 
 message ObjectiveSpec {
     ObjectiveType type = 1;
-    float goal = 2;
+    double goal = 2;
     string objective_metric_name = 3;
 }
 
