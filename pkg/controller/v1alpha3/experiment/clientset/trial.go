@@ -31,7 +31,7 @@ type Trial interface {
 	FilterSucceededTrials(
 		trials []trialv1alpha2.Trial) []trialv1alpha2.Trial
 	GetTrialsOwnedBy(e *experimentv1alpha2.Experiment) ([]trialv1alpha2.Trial, error)
-	CreateOrUpdateTrials(e *experimentv1alpha2.Experiment, trials []trialv1alpha2.Trial) error
+	CreateOrUpdateTrial(e *experimentv1alpha2.Experiment, trial *trialv1alpha2.Trial) error
 }
 
 type GeneralTrialClient struct {
@@ -47,16 +47,7 @@ func New(c client.Client, r recorder.Recorder) Trial {
 	}
 }
 
-func (g *GeneralTrialClient) CreateOrUpdateTrials(e *experimentv1alpha2.Experiment, trials []trialv1alpha2.Trial) error {
-	for i := range trials {
-		if err := g.createOrUpdateTrial(e, &trials[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func (g *GeneralTrialClient) createOrUpdateTrial(e *experimentv1alpha2.Experiment, trial *trialv1alpha2.Trial) error {
+func (g *GeneralTrialClient) CreateOrUpdateTrial(e *experimentv1alpha2.Experiment, trial *trialv1alpha2.Trial) error {
 	found := &trialv1alpha2.Trial{}
 	err := g.Get(context.TODO(), types.NamespacedName{
 		Name:      trial.Name,

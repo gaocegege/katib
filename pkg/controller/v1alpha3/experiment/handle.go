@@ -20,8 +20,6 @@ func (r *ReconcileExperiment) handle(
 	}.String())
 	result = reconcile.Result{}
 
-	logger.Info("DEBUG", "experiment", experiment)
-
 	defer func() {
 		err = r.updateStatusIfChanged(experiment, oldStatus)
 	}()
@@ -110,9 +108,9 @@ func (r *ReconcileExperiment) handleTrials(experiment *experimentv1alpha2.Experi
 			r.reportError(experiment, err, "Fail to set owner", util.FailReason)
 			return err
 		}
-		if err = r.CreateOrUpdateTrials(experiment, newTrials); err != nil {
+		if err = r.CreateOrUpdateTrial(experiment, &newTrials[i]); err != nil {
 			r.reportError(experiment, err,
-				"Fail to create or update trials", util.FailReason)
+				"Fail to create or update trial", util.FailReason)
 			return err
 		}
 	}
