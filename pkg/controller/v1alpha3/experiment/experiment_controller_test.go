@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	experimentsv1alpha2 "github.com/kubeflow/katib/pkg/api/operators/apis/experiment/v1alpha2"
+	experimentv1alpha2 "github.com/kubeflow/katib/pkg/api/operators/apis/experiment/v1alpha2"
 )
 
 var c client.Client
@@ -42,7 +42,7 @@ const timeout = time.Second * 5
 
 func TestReconcile(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
-	instance := &experimentsv1alpha2.Experiment{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "default"}}
+	instance := &experimentv1alpha2.Experiment{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "default"}}
 
 	// Setup the Manager and Controller.  Wrap the Controller Reconcile function so it writes each request to a
 	// channel when it is finished.

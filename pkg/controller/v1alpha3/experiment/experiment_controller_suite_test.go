@@ -23,7 +23,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/kubeflow/katib/pkg/apis"
+	"github.com/kubeflow/katib/pkg/api/operators/apis"
 	"github.com/onsi/gomega"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
