@@ -45,6 +45,7 @@ import (
 	"github.com/kubeflow/katib/pkg/controller/v1alpha2/experiment/suggestion"
 	suggestionfake "github.com/kubeflow/katib/pkg/controller/v1alpha2/experiment/suggestion/fake"
 	"github.com/kubeflow/katib/pkg/controller/v1alpha2/experiment/util"
+	controllerutil "github.com/kubeflow/katib/pkg/controller/v1alpha2/util"
 )
 
 const katibControllerName = "katib-controller"
@@ -217,14 +218,12 @@ func (r *ReconcileExperiment) Reconcile(request reconcile.Request) (reconcile.Re
 	}
 	instance := original.DeepCopy()
 
-	if needUpdate, finalizers := instance.NeedUpdateFinalizers(); needUpdate {
+	if needUpdate, finalizers := controllerutil.NeedUpdateFinalizers(instance, instance.Spec.RetainHistoricalData); needUpdate {
 		return r.updateFinalizers(instance, finalizers)
 	}
 
 	if instance.IsCompleted() {
-
 		return reconcile.Result{}, nil
-
 	}
 	if !instance.IsCreated() {
 		//Experiment not created in DB

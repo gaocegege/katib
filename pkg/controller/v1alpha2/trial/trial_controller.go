@@ -42,6 +42,7 @@ import (
 	trialsv1alpha2 "github.com/kubeflow/katib/pkg/api/operators/apis/trial/v1alpha2"
 	commonv1alpha2 "github.com/kubeflow/katib/pkg/common/v1alpha2"
 	"github.com/kubeflow/katib/pkg/controller/v1alpha2/trial/managerclient"
+	controllerutil "github.com/kubeflow/katib/pkg/controller/v1alpha2/util"
 )
 
 var (
@@ -155,6 +156,10 @@ func (r *ReconcileTrial) Reconcile(request reconcile.Request) (reconcile.Result,
 	}
 
 	instance := original.DeepCopy()
+
+	if needUpdate, finalizers := controllerutil.NeedUpdateFinalizers(instance, instance.Spec.RetainRun); needUpdate {
+		return r.updateFinalizers(instance, finalizers)
+	}
 
 	if !instance.IsCreated() {
 		if instance.Status.StartTime == nil {
