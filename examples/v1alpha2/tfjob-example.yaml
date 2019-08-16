@@ -4,13 +4,13 @@ metadata:
   namespace: kubeflow
   name: tfjob-example
 spec:
-  parallelTrialCount: 3
+  parallelTrialCount: 1
   maxTrialCount: 12
   maxFailedTrialCount: 3
   objective:
     type: minimize
     goal: 1000
-    objectiveMetricName: accuracy_1
+    objectiveMetricName: entropy
   algorithm:
     algorithmName: random
   parameters:
@@ -42,8 +42,7 @@ spec:
                 spec:
                   containers:
                     - name: tensorflow
-                      image: kubeflow/tf-dist-mnist-test:1.0
-                      args: ["--train_steps", "1000"]
+                      image: kubeflow/tf-dist-mnist-test:1.2
             Worker:
               replicas: 2
               restartPolicy: Never
@@ -51,5 +50,4 @@ spec:
                 spec:
                   containers:
                     - name: tensorflow
-                      image: kubeflow/tf-dist-mnist-test:1.0
-                      args: ["--train_steps", "1000"]
+                      image: kubeflow/tf-dist-mnist-test:1.2
