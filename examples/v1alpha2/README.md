@@ -225,7 +225,7 @@ spec:
               serviceAccountName: metrics-collector
               containers:
               - name: random-experiment-24lgqghm
-                image: gcr.io/kubeflow-images-public/katib/v1alpha2/metrics-collector
+                image: katib/v1alpha2/metrics-collector
                 imagePullPolicy: IfNotPresent
                 command: ["./metricscollector"]
                 args:

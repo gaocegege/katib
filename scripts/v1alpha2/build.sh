@@ -32,7 +32,7 @@ docker build -t ${PREFIX}/v1alpha2/katib-manager-rest -f ${CMD_PREFIX}/manager-r
 docker build -t ${PREFIX}/v1alpha2/metrics-collector -f ${CMD_PREFIX}/metricscollector/v1alpha2/Dockerfile .
 
 echo "Building UI image..."
-docker build -t ${PREFIX}/v1alpha2/katib-ui -f ${CMD_PREFIX}/ui/v1alpha2/Dockerfile .
+# docker build -t ${PREFIX}/v1alpha2/katib-ui -f ${CMD_PREFIX}/ui/v1alpha2/Dockerfile .
 
 echo "Building TF Event metrics collector image..."
 docker build -t ${PREFIX}/v1alpha2/tfevent-metrics-collector -f ${CMD_PREFIX}/tfevent-metricscollector/v1alpha2/Dockerfile .
